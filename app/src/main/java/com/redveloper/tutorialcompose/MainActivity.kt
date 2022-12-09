@@ -3,6 +3,9 @@ package com.redveloper.tutorialcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -63,14 +66,19 @@ fun GreetingList(items: List<String>){
 @Composable
 fun Greeting(name: String) {
     var isExpanded by remember { mutableStateOf(false) }
+    val animateSizeDp by animateDpAsState(targetValue = if (isExpanded) 80.dp else 40.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow
+        ))
 
     Row(modifier = Modifier.padding(5.dp),
         verticalAlignment = Alignment.CenterVertically,
 
-    ) {
+        ) {
         Image(painter = painterResource(id = R.drawable.ic_android),
             contentDescription = null,
-            modifier = Modifier.size(width = 40.dp, height = 40.dp)
+            modifier = Modifier.size(animateSizeDp),
         )
         Spacer(modifier = Modifier.size(5.dp))
         Column {
@@ -83,7 +91,7 @@ fun Greeting(name: String) {
         }
         IconButton(onClick = { isExpanded = !isExpanded}) {
             Icon(imageVector =
-             if (isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
+            if (isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
                 contentDescription = null
             )
         }
