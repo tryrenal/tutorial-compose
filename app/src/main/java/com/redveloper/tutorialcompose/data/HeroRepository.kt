@@ -7,4 +7,10 @@ class HeroRepository {
     fun getHeroes(): List<Hero>{
         return HerosData.heroes
     }
+
+    fun searchHeroes(query: String): List<Hero> {
+        return HerosData.heroes.filter {
+            it.name.contains(query, ignoreCase = true)
+        }
+    }
 }
