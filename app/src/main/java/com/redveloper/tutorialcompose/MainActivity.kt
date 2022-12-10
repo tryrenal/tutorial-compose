@@ -58,12 +58,27 @@ fun JetpackCofeeApp(){
         modifier = Modifier.verticalScroll(rememberScrollState())
             ) {
         Banner()
-        SectionText(text = stringResource(id = R.string.section_category))
-        CategoryRow(categorys = dummyCategory)
-        SectionText(text = stringResource(id = R.string.section_favorite_menu))
-        MenuRow(menus = dummyMenu)
-        SectionText(text = stringResource(id = R.string.section_best_seller_menu))
-        MenuRow(menus = dummyBestSeller)
+        HomeSection(title = stringResource(id = R.string.section_category)) {
+            CategoryRow(categorys = dummyCategory)
+        }
+        HomeSection(title = stringResource(id = R.string.section_favorite_menu)) {
+            MenuRow(menus = dummyMenu)
+        }
+        HomeSection(title = stringResource(id = R.string.section_best_seller_menu)) {
+            MenuRow(menus = dummyBestSeller)
+        }
+    }
+}
+
+@Composable
+fun HomeSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    content: @Composable () -> Unit
+){
+    Column(modifier) {
+        SectionText(text = title)
+        content()
     }
 }
 
