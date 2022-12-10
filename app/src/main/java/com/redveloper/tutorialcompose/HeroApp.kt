@@ -24,18 +24,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.redveloper.tutorialcompose.data.HeroRepository
 import com.redveloper.tutorialcompose.model.HerosData
 import com.redveloper.tutorialcompose.ui.theme.TutorialComposeTheme
 import kotlinx.coroutines.launch
 
 @Composable
 fun HeroApp(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HeroViewModel = viewModel(factory = ViewModelFactory(HeroRepository()))
 ){
-    val groupedHeroes = HerosData.heroes
-        .sortedBy { it.name }
-        .groupBy { it.name[0] }
+    val groupedHeroes by viewModel.groupedHeroes.collectAsState()
 
     Box(modifier = modifier){
         val scope = rememberCoroutineScope()
