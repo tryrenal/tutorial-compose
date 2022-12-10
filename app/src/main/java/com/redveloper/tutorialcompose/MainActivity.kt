@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.redveloper.tutorialcompose.ui.components.StatefulTemperatureInput
@@ -23,7 +23,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    StatefulTemperatureInput()
+                    var input by remember {
+                        mutableStateOf("")
+                    }
+                    var output by remember {
+                        mutableStateOf("")
+                    }
+                    StatefulTemperatureInput(
+                        input = input, output = output
+                    ){ newInput ->
+                        input = newInput
+                        output = convertToFahrenheit(input)
+                    }
                 }
             }
         }
@@ -35,6 +46,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     TutorialComposeTheme {
-        StatefulTemperatureInput()
+        var input by remember {
+            mutableStateOf("")
+        }
+        var output by remember {
+            mutableStateOf("")
+        }
+        StatefulTemperatureInput(
+            input = input, output = output
+        ){ newInput ->
+            input = newInput
+            output = convertToFahrenheit(input)
+        }
     }
+}
+
+private fun convertToFahrenheit(celcius: String): String{
+    return celcius.toDoubleOrNull()?.let {
+        (it * 9/5) + 32
+    }.toString()
 }
