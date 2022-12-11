@@ -33,12 +33,12 @@ fun BottomBar(
         NavigationItem(
             title = stringResource(id = R.string.menu_cart),
             icon = Icons.Default.ShoppingCart,
-            screen = Screen.Home
+            screen = Screen.Cart
         ),
         NavigationItem(
             title = stringResource(id = R.string.menu_profile),
             icon = Icons.Default.Person,
-            screen = Screen.Home
+            screen = Screen.Profile
         )
     )
 
@@ -56,13 +56,13 @@ fun BottomBar(
                 selected = currentRoute == item.screen.route,
                 label = { Text(text = item.title) },
                 onClick = {
-                          navController.navigate(item.screen.route){
-                              popUpTo(navController.graph.findStartDestination().id){
-                                  saveState = true
-                              }
-                              restoreState = true
-                              launchSingleTop = true
-                          }
+                    navController.navigate(item.screen.route){
+                        popUpTo(navController.graph.findStartDestination().id){
+                            saveState = true
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
                 },
             )
         }
