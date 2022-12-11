@@ -5,12 +5,16 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.redveloper.tutorialcompose.ui.components.BottomBar
 import com.redveloper.tutorialcompose.ui.navigation.Screen
 import com.redveloper.tutorialcompose.ui.screen.cart.CartScreen
+import com.redveloper.tutorialcompose.ui.screen.detail.DetailScreen
 import com.redveloper.tutorialcompose.ui.screen.home.HomeScreen
 import com.redveloper.tutorialcompose.ui.screen.profile.ProfileScreen
 
@@ -33,13 +37,36 @@ fun RewardApp(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(Screen.Home.route){
-                HomeScreen()
+                HomeScreen(
+                    navigateToDetail = { rewardId ->
+                        navController.navigate(Screen.DetailReward.createRoute(rewardId))
+                    }
+                )
             }
             composable(Screen.Cart.route){
                 CartScreen()
             }
             composable(Screen.Profile.route){
                 ProfileScreen()
+            }
+            composable(
+                route = Screen.DetailReward.route,
+                arguments = listOf(
+                    navArgument("rewardId") {
+                        type = NavType.LongType
+                    }
+                )
+            ){
+                val id = it.arguments?.getLong("rewardId") ?: -1L
+                DetailScreen(
+                    rewardId = id,
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    navigateToCart = {
+
+                    }
+                )
             }
         }
     }

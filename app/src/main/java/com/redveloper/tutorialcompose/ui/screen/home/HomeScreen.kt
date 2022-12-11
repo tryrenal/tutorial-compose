@@ -1,5 +1,6 @@
 package com.redveloper.tutorialcompose.ui.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,7 +20,8 @@ import com.redveloper.tutorialcompose.ui.components.RewardItem
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository()))
+    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
+    navigateToDetail: (Long) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uistate ->
         when(uistate){
@@ -27,7 +29,11 @@ fun HomeScreen(
                 viewModel.getAllRewards()
             }
             is UiState.Success -> {
-                HomeContent(orderReward = uistate.data, modifier = modifier)
+                HomeContent(
+                    orderReward = uistate.data,
+                    modifier = modifier,
+                    navigateToDetail = navigateToDetail
+                )
             }
             is UiState.Error -> {
 
@@ -39,7 +45,8 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     orderReward: List<OrderReward>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Long) -> Unit
 ){
     LazyVerticalGrid(
         columns = GridCells.Adaptive(160.dp),
@@ -49,7 +56,15 @@ fun HomeContent(
         modifier = modifier,
     ){
         items(orderReward){ item ->
-            RewardItem(image = item.reward.image, title = item.reward.title, requiredPoint = item.reward.requiredPoint)
+            RewardItem(
+                image = item.reward.image,
+                title = item.reward.title,
+                requiredPoint = item.reward.requiredPoint,
+                modifier = Modifier
+                    .clickable {
+                        navigateToDetail(item.reward.id)
+                    }
+            )
         }
     }
 }
