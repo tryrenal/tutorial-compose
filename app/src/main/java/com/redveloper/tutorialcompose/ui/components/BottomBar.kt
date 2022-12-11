@@ -1,4 +1,4 @@
-package com.redveloper.tutorialcompose.components
+package com.redveloper.tutorialcompose.ui.components
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -16,8 +16,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redveloper.tutorialcompose.R
-import com.redveloper.tutorialcompose.navigation.NavigationItem
-import com.redveloper.tutorialcompose.navigation.Screen
+import com.redveloper.tutorialcompose.ui.navigation.NavigationItem
+import com.redveloper.tutorialcompose.ui.navigation.Screen
 
 @Composable
 fun BottomBar(

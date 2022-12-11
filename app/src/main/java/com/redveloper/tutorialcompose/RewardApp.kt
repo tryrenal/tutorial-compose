@@ -8,8 +8,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.redveloper.tutorialcompose.components.BottomBar
-import com.redveloper.tutorialcompose.navigation.Screen
+import com.redveloper.tutorialcompose.ui.components.BottomBar
+import com.redveloper.tutorialcompose.ui.navigation.Screen
+import com.redveloper.tutorialcompose.ui.screen.cart.CartScreen
+import com.redveloper.tutorialcompose.ui.screen.home.HomeScreen
+import com.redveloper.tutorialcompose.ui.screen.profile.ProfileScreen
 
 @Composable
 fun RewardApp(
@@ -40,16 +43,4 @@ fun RewardApp(
             }
         }
     }
-}
-
-private fun HomeScreen(){
-
-}
-
-private fun CartScreen(){
-
-}
-
-private fun ProfileScreen(){
-
 }

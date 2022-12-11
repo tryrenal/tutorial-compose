@@ -1,4 +1,4 @@
-package com.redveloper.tutorialcompose.navigation
+package com.redveloper.tutorialcompose.ui.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
