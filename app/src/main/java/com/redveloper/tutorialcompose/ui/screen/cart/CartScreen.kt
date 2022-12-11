@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +28,8 @@ fun CartScreen(
     modifier: Modifier = Modifier,
     viewModel: CartViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
-    )
+    ),
+    onOrderButtonClicked: (String) -> Unit
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when(uiState){
@@ -41,7 +41,8 @@ fun CartScreen(
                     state = uiState.data,
                     onProductCountChanged = { id, count ->
                         viewModel.updateOrderReward(id, count)
-                    }
+                    },
+                    onOrderButtonClicked = onOrderButtonClicked
                 )
             }
             is UiState.Error -> {
@@ -55,8 +56,12 @@ fun CartScreen(
 fun CartContent(
     state: CartState,
     onProductCountChanged: (id: Long, count: Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onOrderButtonClicked: (String) -> Unit
 ){
+    val shareMessage = stringResource(id = R.string.share_message,
+        state.orderReward.count(),
+        state.totalRequiredPoint)
     Column(
         modifier = modifier
     ) {
@@ -77,10 +82,10 @@ fun CartContent(
             text = stringResource(id = R.string.total_order, state.totalRequiredPoint),
             enabled = state.orderReward.isNotEmpty(),
             onClick = {
-
+                onOrderButtonClicked(shareMessage)
             },
             modifier = Modifier.padding(16.dp)
-        ) 
+        )
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
