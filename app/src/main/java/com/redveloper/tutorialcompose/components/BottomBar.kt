@@ -9,15 +9,20 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.redveloper.tutorialcompose.navigation.NavigationItem
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.redveloper.tutorialcompose.R
+import com.redveloper.tutorialcompose.navigation.NavigationItem
 import com.redveloper.tutorialcompose.navigation.Screen
 
 @Composable
 fun BottomBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
 ){
     val navigationItems = listOf(
         NavigationItem(
@@ -40,14 +45,25 @@ fun BottomBar(
     BottomNavigation(
         modifier = modifier
     ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         navigationItems.map { item ->
             BottomNavigationItem(
                 icon = {
-                       Icon(imageVector = item.icon, contentDescription = null)
+                    Icon(imageVector = item.icon, contentDescription = null)
                 },
-                selected = true,
-                onClick = {},
-                label = { Text(text = item.title) }
+                selected = currentRoute == item.screen.route,
+                label = { Text(text = item.title) },
+                onClick = {
+                          navController.navigate(item.screen.route){
+                              popUpTo(navController.graph.findStartDestination().id){
+                                  saveState = true
+                              }
+                              restoreState = true
+                              launchSingleTop = true
+                          }
+                },
             )
         }
     }
