@@ -3,11 +3,13 @@ package com.redveloper.tutorialcompose
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
@@ -23,11 +25,17 @@ fun RewardApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ){
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
         bottomBar = {
-            BottomBar(
-                navController = navController
-            )
+            if (currentRoute != Screen.DetailReward.route){
+                BottomBar(
+                    navController = navController
+                )
+            }
         },
         modifier = modifier
     ) { innerPadding ->
