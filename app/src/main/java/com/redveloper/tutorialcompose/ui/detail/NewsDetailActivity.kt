@@ -1,6 +1,9 @@
 package com.redveloper.tutorialcompose.ui.detail
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import com.redveloper.tutorialcompose.R
 import com.redveloper.tutorialcompose.data.local.entity.NewsEntity
 import com.redveloper.tutorialcompose.ui.ViewModelFactory
@@ -91,7 +95,21 @@ fun NewsDetailContent(
         Box(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()){
-
+            AndroidView(
+                factory = {
+                    WebView(it).apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                        webViewClient = WebViewClient()
+                        loadUrl(url)
+                    }
+                },
+                update = {
+                    it.loadUrl(url)
+                }
+            )
         }
     }
 }
