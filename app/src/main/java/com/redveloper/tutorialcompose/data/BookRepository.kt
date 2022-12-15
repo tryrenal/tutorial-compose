@@ -20,6 +20,12 @@ class BookRepository {
         return flowOf(listBook)
     }
 
+    fun getBookById(id: Long): BookModel{
+        return listBook.first {
+            it.id == id
+        }
+    }
+
     companion object{
         @Volatile
         private var instance: BookRepository? = null

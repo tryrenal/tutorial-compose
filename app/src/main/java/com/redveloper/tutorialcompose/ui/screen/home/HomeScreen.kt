@@ -1,5 +1,6 @@
 package com.redveloper.tutorialcompose.ui.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,8 @@ import com.redveloper.tutorialcompose.ui.theme.TutorialComposeTheme
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository()))
+    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
+    navigateToDetail: (Long) -> Unit
 ){
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uistate ->
         when(uistate){
@@ -35,7 +37,8 @@ fun HomeScreen(
             is UiState.Success -> {
                 HomeContent(
                     listBook = uistate.data,
-                    modifier = modifier
+                    modifier = modifier,
+                    navigateToDetail = navigateToDetail
                 )
             }
         }
@@ -46,6 +49,7 @@ fun HomeScreen(
 fun HomeContent(
     modifier: Modifier = Modifier,
     listBook: List<BookModel>,
+    navigateToDetail: (Long) -> Unit
 ){
     LazyColumn(
         verticalArrangement = Arrangement.SpaceBetween
@@ -58,6 +62,9 @@ fun HomeContent(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(horizontal = 5.dp, vertical = 10.dp)
+                    .clickable {
+                        navigateToDetail(item.id)
+                    }
             )
         }
     }
@@ -67,6 +74,10 @@ fun HomeContent(
 @Composable
 fun PreviewHomeScreen(){
     TutorialComposeTheme {
-        HomeScreen()
+        HomeScreen(
+            navigateToDetail = {
+
+            }
+        )
     }
 }

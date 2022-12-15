@@ -4,5 +4,6 @@ data class BookModel(
     val id: Long,
     val image: Int,
     val title: String,
-    val description: String
+    val description: String,
+    val author: String
 )
