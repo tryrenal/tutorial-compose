@@ -4,4 +4,6 @@
     <string name="menu_profile">Profile</string>
     <string name="label_author">Penerbit: %s</string>
     <string name="free_sample">Free Sample</string>
+    <string name="name_dicoding">Renaldy Sabdo Jati Purboningrat</string>
+    <string name="email_dicoding">renalraion@gmail.com</string>
 </resources>
