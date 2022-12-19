@@ -3,7 +3,7 @@ package com.redveloper.tutorialcompose.model
 data class BookModel(
     val id: Long,
     val image: Int,
-    val title: String,
-    val description: String,
-    val author: String
+    val title: Int,
+    val description: Int,
+    val author: Int
 )

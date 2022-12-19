@@ -45,9 +45,9 @@ fun DetailScreen(
                 val data = uiState.data
                 DetailContent(
                     image = data.image,
-                    title = data.title,
-                    author = data.author,
-                    description = data.description,
+                    title = stringResource(id = data.title),
+                    author = stringResource(id = data.author),
+                    description = stringResource(id = data.description),
                     navigateBack = navigateBack
                 )
             }
@@ -69,7 +69,7 @@ fun DetailContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = title
+                        text = "Back"
                     )
                 },
                 navigationIcon = {
